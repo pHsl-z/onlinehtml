@@ -131,16 +131,6 @@
             border-radius: 0;
         }
 
-        /* iOS Safari 优化 */
-        .code-editor:focus {
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .code-editor::placeholder {
-            color: #666666;
-        }
-
         .preview-frame {
             flex: 1;
             border: none;
@@ -148,7 +138,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 按钮触摸优化 - 针对iOS Edge */
         .btn {
             background: #2a2a2a;
             color: #ffffff;
@@ -196,30 +185,12 @@
                 opacity: 0.7;
                 transform: scale(0.98);
             }
-            
-            /* iOS按钮点击延迟修复 */
-            .btn {
-                cursor: pointer;
-                -webkit-touch-callout: none;
-            }
-            
-            /* 防止iOS双击缩放 */
-            * {
-                -webkit-touch-callout: none;
-                -webkit-text-size-adjust: none;
-            }
-            
-            /* iOS滚动优化 */
-            .code-editor {
-                -webkit-overflow-scrolling: touch;
-                overflow-scrolling: touch;
-            }
         }
         
         /* iOS 13+ 增强兼容性 */
         @media (pointer: coarse) {
             .btn {
-                min-height: 44px; /* iOS推荐的最小触摸目标 */
+                min-height: 44px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -258,69 +229,6 @@
         .btn-success:hover {
             background: #008c5a;
             border-color: #008c5a;
-        }
-
-        .btn-sm {
-            padding: 4px 8px;
-            font-size: 12px;
-            min-height: auto;
-        }
-
-        .btn-info {
-            background: #17a2b8;
-            border-color: #17a2b8;
-        }
-
-        .btn-info:hover {
-            background: #138496;
-            border-color: #138496;
-        }
-
-        /* 全屏预览样式 */
-        .fullscreen-preview {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            z-index: 9999 !important;
-            background: white !important;
-            margin: 0 !important;
-            border: none !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-        }
-
-        .fullscreen-preview .panel-header {
-            position: absolute !important;
-            top: 10px !important;
-            right: 10px !important;
-            background: rgba(0,0,0,0.8) !important;
-            border-radius: 8px !important;
-            padding: 8px !important;
-            z-index: 10000 !important;
-        }
-
-        .fullscreen-preview .panel-title {
-            display: none !important;
-        }
-
-        .fullscreen-preview .preview-frame {
-            width: 100% !important;
-            height: 100% !important;
-            border: none !important;
-        }
-
-        .fullscreen-preview .btn {
-            background: rgba(255,255,255,0.9) !important;
-            border: 1px solid rgba(255,255,255,0.3) !important;
-            color: #333 !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
-        }
-
-        .fullscreen-preview .btn:hover {
-            background: rgba(255,255,255,1) !important;
         }
 
         .btn-group {
@@ -403,287 +311,20 @@
 
             .panel-header {
                 padding: 10px 12px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .panel-title {
-                flex-shrink: 0;
             }
 
             .btn-group {
                 gap: 6px;
-                margin-left: auto;
-                flex-shrink: 0;
             }
 
             .code-editor {
                 padding: 12px;
                 font-size: 13px;
-                line-height: 1.5;
-            }
-            
-            .button {
-                padding: 6px 10px;
-                font-size: 12px;
-                min-height: 36px;
             }
             
             .status-bar {
                 padding: 6px 12px;
                 font-size: 11px;
-            }
-            
-            .char-count {
-                font-size: 11px;
-            }
-            
-            /* 移动设备通知位置优化 */
-            .toast {
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                max-width: calc(100vw - 20px);
-                transform: translateX(-100%);
-                font-size: 13px;
-                padding: 10px 15px;
-            }
-            
-            .toast.show {
-                transform: translateX(0);
-            }
-        }
-
-        /* 平板设备优化 */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .button {
-                padding: 7px 12px;
-                font-size: 12px;
-            }
-            
-            .code-editor {
-                font-size: 13px;
-                padding: 15px;
-            }
-            
-            .panel-header {
-                padding: 14px 18px;
-            }
-            
-            /* iPad竖屏通知优化 */
-            @media (orientation: portrait) {
-                .toast {
-                    top: 75px; /* 避免遮挡面板标题 */
-                    left: 20px;
-                    max-width: 280px;
-                    font-size: 13px;
-                }
-            }
-        }
-
-        /* 桌面设备优化 */
-        @media (min-width: 1025px) {
-            .container {
-                max-width: 100vw;
-                margin: 0 auto;
-            }
-        }
-
-        /* iPad横屏特殊优化 */
-        @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
-            /* iPad Pro横屏通知优化 */
-            .toast {
-                top: 80px; /* 更大的顶部距离 */
-                left: 30px;
-                max-width: 350px;
-                font-size: 14px;
-            }
-        }
-        
-        @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
-            /* iPad横屏通知优化 */
-            .toast {
-                top: 65px; /* 适中的顶部距离 */
-                left: 25px;
-                max-width: 320px;
-                font-size: 13px;
-            }
-        }
-
-        /* 全屏预览优化 */
-        .fullscreen-preview {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 9999;
-            background: #1a1a1a;
-            margin: 0;
-            border: none;
-            border-radius: 0;
-        }
-
-        .fullscreen-preview .panel-header {
-            padding: 12px 20px;
-            background: #2a2a2a;
-            border-bottom: 1px solid #3a3a3a;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .fullscreen-preview .panel-title {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .fullscreen-preview .preview-frame {
-            height: calc(100vh - 60px);
-            width: 100%;
-            border: none;
-            background: white;
-        }
-
-        .fullscreen-preview .btn {
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 6px;
-            border: 1px solid #3a3a3a;
-            background: #2a2a2a;
-            color: #ffffff;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .fullscreen-preview .btn:hover {
-            background: #3a3a3a;
-            border-color: #4a4a4a;
-        }
-
-        /* 超小屏幕优化 */
-        @media (max-width: 480px) {
-            .panel-header {
-                padding: 8px 10px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex-wrap: nowrap;
-                gap: 8px;
-            }
-
-            .panel-title {
-                font-size: 14px;
-                flex-shrink: 0;
-            }
-
-            .btn-group {
-                gap: 4px;
-                margin-left: auto;
-                flex-shrink: 0;
-            }
-
-            .button, .btn {
-                padding: 5px 8px;
-                font-size: 11px;
-                min-height: 32px;
-            }
-
-            .code-editor {
-                padding: 10px;
-                font-size: 12px;
-            }
-
-            .status-bar {
-                padding: 5px 10px;
-                font-size: 10px;
-            }
-
-            .fullscreen-preview .panel-header {
-                padding: 10px 15px;
-            }
-
-            .fullscreen-preview .btn {
-                padding: 6px 12px;
-                font-size: 12px;
-            }
-            
-            /* 超小屏幕通知优化 */
-            .toast {
-                top: 5px;
-                left: 5px;
-                right: 5px;
-                max-width: calc(100vw - 10px);
-                font-size: 12px;
-                padding: 8px 12px;
-                border-radius: 6px;
-            }
-        }
-
-        /* 平板横屏优化 */
-        @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
-            .container {
-                flex-direction: row;
-            }
-            
-            .editor-panel {
-                flex: 0 0 45%;
-                border-right: 1px solid #2a2a2a;
-                border-bottom: none;
-            }
-            
-            .preview-panel {
-                flex: 1;
-            }
-            
-            /* iPad横屏通知优化 - 避免遮挡顶部按钮 */
-            .toast {
-                top: 70px; /* 增加顶部距离，避免遮挡面板标题 */
-                left: 20px;
-                max-width: 300px;
-                font-size: 13px;
-            }
-        }
-
-        /* 全屏预览移动设备优化 */
-        @media (max-width: 768px) and (orientation: portrait) {
-            .fullscreen-preview .panel-header {
-                padding: 10px 15px;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: rgba(0,0,0,0.8);
-                border-radius: 8px;
-                left: auto;
-                width: auto;
-            }
-            
-            .fullscreen-preview .preview-frame {
-                height: calc(100vh - 50px);
-            }
-        }
-
-        @media (max-width: 768px) and (orientation: landscape) {
-            .fullscreen-preview .panel-header {
-                padding: 8px 12px;
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: rgba(0,0,0,0.8);
-                border-radius: 8px;
-                left: auto;
-                width: auto;
-            }
-            
-            .fullscreen-preview .preview-frame {
-                height: calc(100vh - 45px);
             }
         }
 
@@ -698,7 +339,7 @@
             100% { transform: scale(1); }
         }
 
-        /* 消息提示样式 */
+        /* 消息提示样式 - 已修复 */
         .toast {
             position: fixed;
             top: 20px;
@@ -713,6 +354,12 @@
             transform: translateX(-100%);
             transition: transform 0.3s ease;
             backdrop-filter: blur(10px);
+            /* 新增样式：确保宽度自适应内容 */
+            display: inline-block;
+            max-width: 80%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .toast.show {
@@ -721,12 +368,35 @@
 
         .toast.success {
             border-color: #00a86b;
-            background: rgba(0, 168, 107, 0.1);
+            background: #00a86b;
+            /* 移除背景透明度，确保绿色框完全覆盖 */
         }
 
         .toast.error {
             border-color: #ff4757;
-            background: rgba(255, 71, 87, 0.1);
+            background: #ff4757;
+        }
+
+        /* 移动设备通知优化 */
+        @media (max-width: 768px) {
+            .toast {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                max-width: calc(100vw - 20px);
+                font-size: 13px;
+                padding: 10px 15px;
+                /* 移动设备上允许换行 */
+                white-space: normal;
+                text-overflow: unset;
+            }
+        }
+
+        /* 平板设备优化 */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .toast {
+                max-width: 70%;
+            }
         }
     </style>
 </head>
@@ -796,90 +466,41 @@
         const htmlEditor = document.getElementById('htmlEditor');
         const previewFrame = document.getElementById('previewFrame');
         const charCount = document.getElementById('charCount');
-        const pasteBtn = document.getElementById('pasteBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const printBtn = document.getElementById('printBtn');
 
-        // 初始化编辑器 - 修改为清空状态
+        // 初始化编辑器
         htmlEditor.value = '';
         updateCharCount();
-        
-        // IE浏览器兼容性：确保iframe正确初始化
-        if (document.documentMode || /Edge/.test(navigator.userAgent)) {
-            previewFrame.style.display = 'block';
-            previewFrame.style.width = '100%';
-            previewFrame.style.height = 'calc(100% - 60px)';
-        }
         
         // 延迟初始化预览，确保DOM完全加载
         setTimeout(function() {
             updatePreview();
         }, 100);
 
-        // 实时预览功能 - 优化触摸设备体验
+        // 实时预览功能
         let updateTimeout;
         htmlEditor.addEventListener('input', function() {
             clearTimeout(updateTimeout);
             updateTimeout = setTimeout(updatePreview, 100);
             updateCharCount();
         });
-        
-        // iOS Edge浏览器兼容性：监听change事件
-        htmlEditor.addEventListener('change', function() {
-            clearTimeout(updateTimeout);
-            updateTimeout = setTimeout(updatePreview, 100);
-            updateCharCount();
-        });
-        
-        // IE浏览器兼容性：监听propertychange事件
-        if (document.documentMode || /Edge/.test(navigator.userAgent)) {
-            htmlEditor.addEventListener('propertychange', function(e) {
-                if (e.propertyName === 'value') {
-                    clearTimeout(updateTimeout);
-                    updateTimeout = setTimeout(updatePreview, 100);
-                    updateCharCount();
-                }
-            });
-        }
-        
-        // 监听keyup事件以确保IE兼容性
-        htmlEditor.addEventListener('keyup', function() {
-            clearTimeout(updateTimeout);
-            updateTimeout = setTimeout(updatePreview, 100);
-            updateCharCount();
-        });
-        
-        // 触摸设备优化 - 防止键盘遮挡
-        htmlEditor.addEventListener('focus', function() {
-            // 延迟滚动确保编辑器可见
-            setTimeout(() => {
-                htmlEditor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
-        });
 
         function updatePreview() {
             const code = htmlEditor.value;
             const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
             try {
-                // 使用srcdoc属性避免重复声明问题（现代浏览器）
                 if ('srcdoc' in previewFrame) {
                     previewFrame.srcdoc = code;
                 } else {
-                    // IE浏览器兼容性处理
                     if (previewDoc.open && previewDoc.write && previewDoc.close) {
                         previewDoc.open();
                         previewDoc.write(code);
                         previewDoc.close();
                     } else {
-                        // 对于IE的备用方案
                         previewFrame.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(code);
                     }
                 }
             } catch (error) {
                 console.log('Preview update error:', error);
-                // IE浏览器备用方案
                 try {
                     previewFrame.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(code);
                 } catch (ieError) {
@@ -894,28 +515,10 @@
 
         function clearEditor() {
             if (confirm('确定要清空编辑器吗？')) {
-                // iOS Safari/Edge浏览器兼容性处理
-                // 初始化编辑器 - 修改为清空状态
                 htmlEditor.value = '';
                 updateCharCount();
-                
-                // 确保预览区域也是空的
                 updatePreview();
-                
-                // 延迟再次清空确保完全初始化
-                setTimeout(function() {
-                    updatePreview();
-                    updateCharCount();
-                }, 100);
-                
-                setTimeout(function() {
-                    updatePreview();
-                    updateCharCount();
-                }, 200);
-                
-                // 清除本地存储
                 localStorage.removeItem('htmlEditorContent');
-                
                 showToast('编辑器已清空', 'success');
             }
         }
@@ -924,79 +527,26 @@
             charCount.textContent = htmlEditor.value.length;
         }
 
-        // 从剪贴板粘贴 - 增强兼容性
+        // 从剪贴板粘贴
         async function pasteFromClipboard() {
             try {
-                // 检查剪贴板API是否可用
-                if (!navigator.clipboard || !navigator.clipboard.readText) {
-                    throw new Error('剪贴板API不可用');
-                }
-                
                 const text = await navigator.clipboard.readText();
-                if (!text || text.trim() === '') {
-                    throw new Error('剪贴板内容为空');
-                }
-                
                 htmlEditor.value = text;
                 htmlEditor.focus();
                 updatePreview();
                 updateCharCount();
                 showToast('已从剪贴板粘贴', 'success');
-                
-                // 添加按钮动画效果
-                pasteBtn.classList.add('pasting');
-                setTimeout(() => pasteBtn.classList.remove('pasting'), 600);
             } catch (err) {
-                console.warn('剪贴板访问失败:', err);
-                
-                // 备用方案：使用传统方式
-                try {
-                    htmlEditor.focus();
-                    // 创建一个临时输入框用于粘贴
-                    const tempInput = document.createElement('textarea');
-                    tempInput.style.position = 'fixed';
-                    tempInput.style.opacity = '0';
-                    document.body.appendChild(tempInput);
-                    tempInput.focus();
-                    
-                    // 尝试执行粘贴命令
-                    const pasteSuccess = document.execCommand('paste');
-                    
-                    if (pasteSuccess) {
-                        const pastedText = tempInput.value;
-                        if (pastedText && pastedText.trim() !== '') {
-                            htmlEditor.value = pastedText;
-                            updatePreview();
-                            updateCharCount();
-                            showToast('已从剪贴板粘贴', 'success');
-                            
-                            // 添加按钮动画效果
-                            pasteBtn.classList.add('pasting');
-                            setTimeout(() => pasteBtn.classList.remove('pasting'), 600);
-                        } else {
-                            throw new Error('剪贴板内容为空');
-                        }
-                    } else {
-                        throw new Error('无法访问剪贴板');
-                    }
-                    
-                    document.body.removeChild(tempInput);
-                } catch (fallbackError) {
-                    console.error('备用粘贴方案失败:', fallbackError);
-                    showToast('无法访问剪贴板，请手动粘贴', 'error');
-                }
+                showToast('无法访问剪贴板，请手动粘贴', 'error');
             }
         }
 
-        // Toast 消息提示
+        // Toast 消息提示 - 已修复
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
             document.body.appendChild(toast);
-            
-            // iPad设备调整通知位置
-            adjustToastPositionForiPad();
             
             // 触发显示动画
             setTimeout(() => {
@@ -1039,43 +589,7 @@
             }
         }
 
-        // 添加动画样式
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // 快捷键支持
-        htmlEditor.addEventListener('keydown', function(e) {
-            // Ctrl+S 保存
-            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-                e.preventDefault();
-                downloadHTML();
-            }
-            // Ctrl+R 刷新预览
-            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
-                e.preventDefault();
-                refreshPreview();
-            }
-            // Ctrl+V 粘贴（增强功能） - 兼容各种设备
-            if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
-                // 让浏览器默认粘贴行为发生，然后更新预览
-                setTimeout(() => {
-                    updatePreview();
-                    updateCharCount();
-                }, 100);
-            }
-        });
-
-        // 自动保存功能 - 优化移动设备体验
+        // 自动保存功能
         let autoSaveTimeout;
         htmlEditor.addEventListener('input', function() {
             clearTimeout(autoSaveTimeout);
@@ -1088,110 +602,13 @@
             }, 1000);
         });
         
-        // iOS Edge浏览器：监听change事件用于自动保存
-        htmlEditor.addEventListener('change', function() {
-            clearTimeout(autoSaveTimeout);
-            autoSaveTimeout = setTimeout(function() {
-                try {
-                    localStorage.setItem('htmlEditorContent', htmlEditor.value);
-                } catch (error) {
-                    console.warn('自动保存失败:', error);
-                }
-            }, 1000);
-        });
-        
-        // 页面可见性变化时保存 - 移动设备优化
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                try {
-                    localStorage.setItem('htmlEditorContent', htmlEditor.value);
-                } catch (error) {
-                    console.warn('页面隐藏时保存失败:', error);
-                }
-            }
-        });
-        
-        // 页面卸载前保存
-        window.addEventListener('beforeunload', function() {
-            try {
-                localStorage.setItem('htmlEditorContent', htmlEditor.value);
-            } catch (error) {
-                console.warn('页面卸载前保存失败:', error);
-            }
-        });
-        
-        // 移动设备优化：处理页面切换和后台运行
-        window.addEventListener('blur', function() {
-            try {
-                localStorage.setItem('htmlEditorContent', htmlEditor.value);
-            } catch (error) {
-                console.warn('页面失去焦点时保存失败:', error);
-            }
-        });
-        
-        // 处理设备旋转
-        window.addEventListener('orientationchange', function() {
-            setTimeout(() => {
-                htmlEditor.style.height = 'auto';
-                htmlEditor.style.height = htmlEditor.scrollHeight + 'px';
-                
-                // iPad横屏时动态调整通知位置
-                if (isIOS() && (window.orientation === 90 || window.orientation === -90)) {
-                    // 横屏模式，增加顶部距离
-                    const toast = document.querySelector('.toast');
-                    if (toast) {
-                        toast.style.top = '85px';
-                    }
-                }
-            }, 300);
-        });
-        
-        // iPad检测函数
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        }
-        
-        // 动态调整iPad通知位置
-        function adjustToastPositionForiPad() {
-            if (isIOS()) {
-                const toast = document.querySelector('.toast');
-                if (toast) {
-                    // 检测是否为横屏
-                    const isLandscape = window.innerWidth > window.innerHeight;
-                    if (isLandscape) {
-                        // 横屏模式增加顶部距离
-                        const screenWidth = window.innerWidth;
-                        if (screenWidth >= 1366) {
-                            // iPad Pro
-                            toast.style.top = '90px';
-                        } else if (screenWidth >= 1024) {
-                            // 标准iPad
-                            toast.style.top = '80px';
-                        } else {
-                            // 较小iPad
-                            toast.style.top = '75px';
-                        }
-                    } else {
-                        // 竖屏模式使用CSS中定义的位置
-                        toast.style.top = '';
-                    }
-                }
-            }
-        }
-        
-        // 监听窗口大小变化
-        window.addEventListener('resize', adjustToastPositionForiPad);
-
-        function loadFromLocalStorage() {
-            // 修改为不自动加载之前的内容，保持清空状态
-            // 可以在这里添加欢迎信息或其他初始化逻辑
+        // 页面加载时尝试恢复保存的内容
+        window.addEventListener('load', function() {
             showToast('HTML编辑器已准备就绪', 'success');
-        }
+        });
         
         // 功能简介显示函数
         function showHelp() {
-            // 创建模态框
             const modal = document.createElement('div');
             modal.style.cssText = `
                 position: fixed;
@@ -1282,78 +699,30 @@
             document.body.appendChild(modal);
         }
 
-        // 打印预览函数 - 优化安卓兼容性
+        // 打印预览函数
         function printPreview() {
             try {
                 const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
                 const previewContent = previewDoc.documentElement.outerHTML;
                 
-                // 检测是否为安卓设备
-                const isAndroid = /Android/.test(navigator.userAgent);
+                const printWindow = window.open('', '_blank', 'width=800,height=600');
                 
-                if (isAndroid) {
-                    // 安卓设备使用iframe方式打印
-                    const printIframe = document.createElement('iframe');
-                    printIframe.style.position = 'absolute';
-                    printIframe.style.top = '-9999px';
-                    printIframe.style.left = '-9999px';
-                    printIframe.style.width = '0';
-                    printIframe.style.height = '0';
-                    printIframe.style.border = 'none';
+                if (printWindow) {
+                    printWindow.document.write(previewContent);
+                    printWindow.document.close();
                     
-                    document.body.appendChild(printIframe);
-                    
-                    const printDoc = printIframe.contentDocument || printIframe.contentWindow.document;
-                    printDoc.open();
-                    printDoc.write(previewContent);
-                    printDoc.close();
-                    
-                    // 等待内容加载完成后打印
                     setTimeout(() => {
-                        try {
-                            printIframe.contentWindow.focus();
-                            printIframe.contentWindow.print();
-                        } catch (printError) {
-                            console.warn('安卓打印出错，尝试备用方案:', printError);
-                            // 备用方案：使用当前窗口打印
-                            const originalContent = document.body.innerHTML;
-                            document.body.innerHTML = previewContent;
-                            window.print();
-                            document.body.innerHTML = originalContent;
-                            location.reload(); // 重新加载以恢复状态
-                        }
-                        
-                        // 清理iframe
+                        printWindow.print();
                         setTimeout(() => {
-                            if (printIframe.parentNode) {
-                                printIframe.parentNode.removeChild(printIframe);
-                            }
+                            printWindow.close();
                         }, 1000);
-                    }, 500);
+                    }, 300);
                 } else {
-                    // 非安卓设备使用新窗口打印
-                    const printWindow = window.open('', '_blank', 'width=800,height=600');
-                    
-                    if (printWindow) {
-                        printWindow.document.write(previewContent);
-                        printWindow.document.close();
-                        
-                        // 延迟打印以确保内容完全加载
-                        setTimeout(() => {
-                            printWindow.print();
-                            // 打印完成后关闭窗口
-                            setTimeout(() => {
-                                printWindow.close();
-                            }, 1000);
-                        }, 300);
-                    } else {
-                        // 如果弹窗被阻止，使用当前窗口打印
-                        const originalContent = document.body.innerHTML;
-                        document.body.innerHTML = previewContent;
-                        window.print();
-                        document.body.innerHTML = originalContent;
-                        location.reload(); // 重新加载以恢复状态
-                    }
+                    const originalContent = document.body.innerHTML;
+                    document.body.innerHTML = previewContent;
+                    window.print();
+                    document.body.innerHTML = originalContent;
+                    location.reload();
                 }
             } catch (error) {
                 console.error('打印功能出错:', error);
@@ -1369,124 +738,37 @@
             const text = fullscreenBtn.childNodes[2];
             
             if (previewPanel.classList.contains('fullscreen-preview')) {
-                // 退出全屏
                 previewPanel.classList.remove('fullscreen-preview');
                 icon.textContent = '⛶';
                 text.textContent = ' 全屏';
                 showToast('已退出全屏预览', 'info');
             } else {
-                // 进入全屏
                 previewPanel.classList.add('fullscreen-preview');
                 icon.textContent = '⤡';
                 text.textContent = ' 退出全屏';
                 showToast('已进入全屏预览模式', 'success');
             }
             
-            // 延迟刷新预览以确保正确渲染
             setTimeout(() => {
                 refreshPreview();
             }, 100);
         }
 
-        // iOS兼容性检测和错误处理
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        }
-        
-        function isIOSSafari() {
-            return isIOS() && /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent) && !/CriOS/.test(navigator.userAgent);
-        }
-        
-        function isIOSEdge() {
-            return isIOS() && /EdgiOS|Edge/.test(navigator.userAgent);
-        }
-        
-        // 增强的iOS错误处理
-        function handleIOSError(operation, error) {
-            console.warn(`iOS ${operation} 错误:`, error);
-            
-            if (isIOSSafari()) {
-                showToast('iOS Safari兼容性提示：如遇到问题，请尝试双击输入区域', 'warning');
-            } else if (isIOSEdge()) {
-                showToast('iOS Edge兼容性提示：功能可能受限，建议使用Safari', 'warning');
-            }
-        }
-        
-        // 页面加载时尝试恢复保存的内容
-        window.addEventListener('load', function() {
-            try {
-                loadFromLocalStorage();
-                
-                // iOS设备特殊处理
-                if (isIOS()) {
-                    // 延迟初始化确保iOS完全加载
-                    setTimeout(function() {
-                        htmlEditor.focus();
-                        htmlEditor.blur();
-                    }, 500);
-                    
-                    console.log('检测到iOS设备，已应用兼容性优化');
-                }
-            } catch (error) {
-                handleIOSError('页面加载', error);
-            }
-        });
-        
-        // iOS Safari/Edge 兼容性：增强触摸事件处理
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-            // 为所有按钮添加触摸事件支持
-            [clearBtn, pasteBtn, downloadBtn, fullscreenBtn, printBtn].forEach(function(btn) {
-                if (!btn) return;
-                
-                btn.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
-                    this.style.opacity = '0.7';
-                    this.style.transform = 'scale(0.98)';
-                });
-                
-                btn.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    this.style.opacity = '';
-                    this.style.transform = '';
-                    
-                    // 延迟执行点击功能，确保触摸事件完全处理
-                    setTimeout(() => {
-                        if (this.id === 'clearBtn') {
-                            clearEditor();
-                        } else if (this.id === 'pasteBtn') {
-                            pasteFromClipboard();
-                        } else if (this.id === 'downloadBtn') {
-                            downloadHTML();
-                        } else if (this.id === 'fullscreenBtn') {
-                            toggleFullscreenPreview();
-                        } else if (this.id === 'printBtn') {
-                            printPreview();
-                        }
-                    }, 50);
-                });
-                
-                btn.addEventListener('touchcancel', function(e) {
-                    this.style.opacity = '';
-                    this.style.transform = '';
-                });
-            });
-            
-            // 防止双击缩放
-            document.addEventListener('touchstart', function(e) {
-                if (e.touches.length > 1) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-            
-            // 防止页面缩放
-            document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
-            });
+        // 测试通知功能
+        function testNotifications() {
+            showToast('这是一个短通知', 'success');
+            setTimeout(() => {
+                showToast('这是一个中等长度的通知消息', 'success');
+            }, 3500);
+            setTimeout(() => {
+                showToast('这是一个非常长的通知消息，用于测试绿色背景框是否能够正确适应文字长度', 'success');
+            }, 7000);
         }
 
-        // 初始化完成
-        console.log('HTML编辑器初始化完成，兼容性优化已应用');
+        // 页面加载完成后测试通知
+        window.addEventListener('load', function() {
+            setTimeout(testNotifications, 1000);
+        });
     </script>
 </body>
 </html>
