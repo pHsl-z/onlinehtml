@@ -31,6 +31,8 @@
             overflow: hidden;
             position: fixed;
             -webkit-text-size-adjust: 100%;
+            /* 防止 iOS Safari 地址栏收起时的跳动 */
+            min-height: -webkit-fill-available;
         }
 
         body {
@@ -41,15 +43,23 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        :root {
+            --vh: 1vh;
+        }
+
         .container {
             display: flex;
-            height: 100vh;
+            height: 100vh; /* 回退值 */
+            height: calc(var(--vh, 1vh) * 100); /* 使用计算的视口高度 */
             width: 100vw;
             background: #161616;
             border: 1px solid #2a2a2a;
             margin: 0;
             overflow: hidden;
             position: relative;
+            /* 防止 iOS 橡皮筋效果 */
+            overscroll-behavior: none;
+            -webkit-overflow-scrolling: touch;
         }
 
         .editor-panel {
@@ -127,7 +137,9 @@
             white-space: pre;
             tab-size: 4;
             -webkit-overflow-scrolling: touch;
+            overflow-scrolling: touch;
             -webkit-appearance: none;
+            appearance: none;
             border-radius: 0;
         }
 
@@ -169,6 +181,7 @@
             user-select: none;
             touch-action: manipulation;
             -webkit-appearance: none;
+            appearance: none;
         }
 
         .btn:hover {
@@ -188,6 +201,7 @@
                 -webkit-tap-highlight-color: transparent;
                 touch-action: manipulation;
                 -webkit-appearance: none;
+                appearance: none;
                 -webkit-user-select: none;
                 user-select: none;
             }
@@ -212,7 +226,7 @@
             /* iOS滚动优化 */
             .code-editor {
                 -webkit-overflow-scrolling: touch;
-                overflow-scrolling: touch;
+
             }
         }
         
@@ -292,16 +306,11 @@
         }
 
         .fullscreen-preview .panel-header {
-            position: absolute !important;
-            top: 10px !important;
-            right: 10px !important;
-            background: rgba(0,0,0,0.8) !important;
-            border-radius: 8px !important;
-            padding: 8px !important;
-            z-index: 10000 !important;
+            display: none !important;
         }
 
-        .fullscreen-preview .panel-title {
+        .fullscreen-preview .panel-title,
+        .fullscreen-preview .btn-group {
             display: none !important;
         }
 
@@ -311,16 +320,48 @@
             border: none !important;
         }
 
-        .fullscreen-preview .btn {
-            background: rgba(255,255,255,0.9) !important;
-            border: 1px solid rgba(255,255,255,0.3) !important;
-            color: #333 !important;
-            backdrop-filter: blur(10px) !important;
-            -webkit-backdrop-filter: blur(10px) !important;
+        /* 自定义关闭按钮 */
+        .fullscreen-close {
+            position: fixed !important;
+            top: 16px !important;
+            right: 16px !important;
+            width: 32px !important;
+            height: 32px !important;
+            z-index: 10000 !important;
+            background: rgba(0, 0, 0, 0.2) !important;
+            border: none !important;
+            border-radius: 50% !important;
+            cursor: pointer !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            opacity: 0.3 !important;
+            transition: all 0.2s ease !important;
+            padding: 0 !important;
+            outline: none !important;
         }
 
-        .fullscreen-preview .btn:hover {
-            background: rgba(255,255,255,1) !important;
+        .fullscreen-close:hover {
+            opacity: 0.6 !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .fullscreen-close::before,
+        .fullscreen-close::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 16px !important;
+            height: 1.5px !important;
+            background: white !important;
+            transform-origin: center !important;
+        }
+
+        .fullscreen-close::before {
+            transform: rotate(45deg) !important;
+        }
+
+        .fullscreen-close::after {
+            transform: rotate(-45deg) !important;
         }
 
         .btn-group {
@@ -441,11 +482,12 @@
             
             /* 移动设备通知位置优化 */
             .toast {
-                top: 10px;
-                left: 10px;
+                top: 70px; /* 位于按钮下方 */
+                left: auto;
                 right: 10px;
                 max-width: calc(100vw - 20px);
-                transform: translateX(-100%);
+                width: auto;
+                transform: translateX(100%);
                 font-size: 13px;
                 padding: 10px 15px;
             }
@@ -474,10 +516,12 @@
             /* iPad竖屏通知优化 */
             @media (orientation: portrait) {
                 .toast {
-                    top: 75px; /* 避免遮挡面板标题 */
-                    left: 20px;
+                    top: 80px; /* 位于按钮下方 */
+                    left: auto;
+                    right: 20px;
                     max-width: 280px;
                     font-size: 13px;
+                    transform: translateX(100%);
                 }
             }
         }
@@ -504,10 +548,12 @@
         @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
             /* iPad横屏通知优化 */
             .toast {
-                top: 65px; /* 适中的顶部距离 */
-                left: 25px;
+                top: 80px; /* 位于按钮下方 */
+                left: auto;
+                right: 25px;
                 max-width: 320px;
                 font-size: 13px;
+                transform: translateX(100%);
             }
         }
 
@@ -611,13 +657,15 @@
             
             /* 超小屏幕通知优化 */
             .toast {
-                top: 5px;
-                left: 5px;
+                top: 60px; /* 位于按钮下方，考虑到小屏幕高度 */
+                left: auto;
                 right: 5px;
                 max-width: calc(100vw - 10px);
+                width: auto;
                 font-size: 12px;
                 padding: 8px 12px;
                 border-radius: 6px;
+                transform: translateX(100%);
             }
         }
 
@@ -627,7 +675,7 @@
                 flex-direction: row;
             }
             
-.editor-panel {
+            .editor-panel {
                 flex: 0 0 45%;
                 border-right: 1px solid #2a2a2a;
                 border-bottom: none;
@@ -701,21 +749,20 @@
         /* 消息提示样式 */
         .toast {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            background: #0d0d0d;
+            top: 80px; /* 位于按钮下方 */
+            right: 20px;
+            background: #2a2a2a;
             color: #ffffff;
             padding: 12px 20px;
             border-radius: 8px;
             border: 1px solid #3a3a3a;
             font-size: 14px;
             z-index: 1000;
-            transform: translateX(-100%);
+            transform: translateX(100%);
             transition: transform 0.3s ease;
             backdrop-filter: blur(10px);
-            max-width: 320px;
-            word-wrap: break-word;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 300px;
+            width: auto;
         }
 
         .toast.show {
@@ -965,11 +1012,23 @@
         });
         
         // 触摸设备优化 - 防止键盘遮挡
+        let initialLoad = true;
         htmlEditor.addEventListener('focus', function() {
-            // 延迟滚动确保编辑器可见
-            setTimeout(() => {
-                htmlEditor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 300);
+            // 首次加载时不执行滚动
+            if (initialLoad) {
+                initialLoad = false;
+                return;
+            }
+            // 延迟滚动确保编辑器可见，仅在需要时执行
+            if (document.activeElement === htmlEditor) {
+                setTimeout(() => {
+                    const rect = htmlEditor.getBoundingClientRect();
+                    const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+                    if (!isVisible) {
+                        htmlEditor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 300);
+            }
         });
 
         function updatePreview() {
@@ -1169,21 +1228,37 @@
         });
         
         // 处理设备旋转
+        // 处理视口高度变化和设备方向变化
+        function updateViewportHeight() {
+            // 获取真实的视口高度
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // 更新编辑器高度
+            htmlEditor.style.height = 'auto';
+            htmlEditor.style.height = htmlEditor.scrollHeight + 'px';
+            
+            // 处理通知位置
+            const toast = document.querySelector('.toast');
+            if (toast) {
+                const isLandscape = window.innerWidth > window.innerHeight;
+                toast.style.top = isLandscape ? '85px' : '80px';
+            }
+        }
+
+        // 监听方向变化
         window.addEventListener('orientationchange', function() {
-            setTimeout(() => {
-                htmlEditor.style.height = 'auto';
-                htmlEditor.style.height = htmlEditor.scrollHeight + 'px';
-                
-                // iPad横屏时动态调整通知位置
-                if (isIOS() && window.orientation === 90 || window.orientation === -90) {
-                    // 横屏模式，增加顶部距离
-                    const toast = document.querySelector('.toast');
-                    if (toast) {
-                        toast.style.top = '85px';
-                    }
-                }
-            }, 300);
+            // 等待方向变化完成
+            setTimeout(updateViewportHeight, 300);
         });
+
+        // 监听视口大小变化（包括地址栏收起/展开）
+        window.addEventListener('resize', function() {
+            updateViewportHeight();
+        });
+
+        // 初始化视口高度
+        updateViewportHeight();
         
         // iPad检测函数
         function isIOS() {
@@ -1290,11 +1365,6 @@
                 </div>
                 
                 <div style="background: #f5f5f7; padding: 15px; border-radius: 12px; margin: 15px 0; text-align: center;">
-                    <h3 style="color: #1d1d1f; margin: 0 0 8px 0; font-size: 16px;">🔢 版本信息</h3>
-                    <p style="color: #86868b; margin: 0; font-size: 14px;">版本 0.9</p>
-                </div>
-                
-                <div style="background: #f5f5f7; padding: 15px; border-radius: 12px; margin: 15px 0; text-align: center;">
                     <h3 style="color: #1d1d1f; margin: 0 0 8px 0; font-size: 16px;">👨‍💻 作者信息</h3>
                     <p style="color: #86868b; margin: 0; font-size: 14px;">pHotter Song</p>
                 </div>
@@ -1326,81 +1396,89 @@
             document.body.appendChild(modal);
         }
 
-        // 打印预览函数 - 优化安卓兼容性
+        // 打印预览函数 - 优化所有设备兼容性
         function printPreview() {
             try {
                 const previewDoc = previewFrame.contentDocument || previewFrame.contentWindow.document;
-                const previewContent = previewDoc.documentElement.outerHTML;
                 
-                // 检测是否为安卓设备
-                const isAndroid = /Android/.test(navigator.userAgent);
-                
-                if (isAndroid) {
-                    // 安卓设备使用iframe方式打印
-                    const printIframe = document.createElement('iframe');
-                    printIframe.style.position = 'absolute';
-                    printIframe.style.top = '-9999px';
-                    printIframe.style.left = '-9999px';
-                    printIframe.style.width = '0';
-                    printIframe.style.height = '0';
-                    printIframe.style.border = 'none';
-                    
-                    document.body.appendChild(printIframe);
-                    
-                    const printDoc = printIframe.contentDocument || printIframe.contentWindow.document;
-                    printDoc.open();
-                    printDoc.write(previewContent);
-                    printDoc.close();
-                    
-                    // 等待内容加载完成后打印
-                    setTimeout(() => {
-                        try {
-                            printIframe.contentWindow.focus();
-                            printIframe.contentWindow.print();
-                        } catch (printError) {
-                            console.warn('安卓打印出错，尝试备用方案:', printError);
-                            // 备用方案：使用当前窗口打印
-                            const originalContent = document.body.innerHTML;
-                            document.body.innerHTML = previewContent;
-                            window.print();
-                            document.body.innerHTML = originalContent;
-                            location.reload(); // 重新加载以恢复状态
-                        }
-                        
-                        // 清理iframe
-                        setTimeout(() => {
-                            if (printIframe.parentNode) {
-                                printIframe.parentNode.removeChild(printIframe);
-                            }
-                        }, 1000);
-                    }, 500);
-                } else {
-                    // 非安卓设备使用新窗口打印
-                    const printWindow = window.open('', '_blank', 'width=800,height=600');
-                    
-                    if (printWindow) {
-                        printWindow.document.write(previewContent);
-                        printWindow.document.close();
-                        
-                        // 延迟打印以确保内容完全加载
-                        setTimeout(() => {
-                            printWindow.print();
-                            // 打印完成后关闭窗口
-                            setTimeout(() => {
-                                printWindow.close();
-                            }, 1000);
-                        }, 300);
-                    } else {
-                        // 如果弹窗被阻止，使用当前窗口打印
-                        const originalContent = document.body.innerHTML;
-                        document.body.innerHTML = previewContent;
-                        window.print();
-                        document.body.innerHTML = originalContent;
-                        location.reload(); // 重新加载以恢复状态
-                    }
+                // 检查预览内容是否为空
+                if (!previewDoc.body || !previewDoc.body.innerHTML.trim()) {
+                    showToast('预览内容为空，请先输入一些内容', 'error');
+                    return;
                 }
+
+                // 创建打印样式
+                const style = document.createElement('style');
+                style.textContent = `
+                    @media print {
+                        @page { margin: 1cm; }
+                        body { 
+                            margin: 0;
+                            padding: 0;
+                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+                        }
+                        * { 
+                            -webkit-print-color-adjust: exact !important;
+                            print-color-adjust: exact !important;
+                        }
+                    }
+                `;
+
+                // 创建一个新的打印窗口
+                const printWindow = window.open('', '_blank');
+                if (!printWindow) {
+                    showToast('无法打开打印窗口，请检查是否被浏览器阻止', 'error');
+                    return;
+                }
+
+                // 复制所有原始样式表
+                const styleSheets = Array.from(previewDoc.styleSheets);
+                const styleLinks = styleSheets.map(sheet => {
+                    if (sheet.href) {
+                        return `<link rel="stylesheet" href="${sheet.href}">`;
+                    } else if (sheet.ownerNode && sheet.ownerNode.textContent) {
+                        return `<style>${sheet.ownerNode.textContent}</style>`;
+                    }
+                    return '';
+                }).join('');
+
+                // 构建打印页面
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>打印预览</title>
+                        ${styleLinks}
+                        ${style.outerHTML}
+                    </head>
+                    <body>
+                        ${previewDoc.body.innerHTML}
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+
+                // 等待资源加载完成后打印
+                if (printWindow.document.readyState === 'complete') {
+                    printWindow.print();
+                } else {
+                    printWindow.addEventListener('load', function() {
+                        printWindow.print();
+                    });
+                }
+
+                // 打印完成后关闭窗口
+                const checkPrintCompletion = setInterval(() => {
+                    if (!printWindow || printWindow.closed) {
+                        clearInterval(checkPrintCompletion);
+                    }
+                }, 1000);
+
+                showToast('正在打开打印预览...', 'success');
             } catch (error) {
-                console.error('打印功能出错:', error);
+                console.error('打印出错:', error);
                 showToast('打印功能出错，请重试', 'error');
             }
         }
@@ -1408,22 +1486,29 @@
         // 全屏预览切换函数
         function toggleFullscreenPreview() {
             const previewPanel = document.querySelector('.preview-panel');
-            const fullscreenBtn = document.getElementById('fullscreenBtn');
-            const icon = fullscreenBtn.querySelector('.icon');
-            const text = fullscreenBtn.childNodes[2];
             
             if (previewPanel.classList.contains('fullscreen-preview')) {
                 // 退出全屏
                 previewPanel.classList.remove('fullscreen-preview');
-                icon.textContent = '⛶';
-                text.textContent = ' 全屏';
-                showToast('已退出全屏预览', 'info');
+                // 移除关闭按钮
+                const closeBtn = document.querySelector('.fullscreen-close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('transitionend', function() {
+                        document.body.removeChild(closeBtn);
+                    });
+                    closeBtn.style.opacity = '0';
+                }
             } else {
                 // 进入全屏
                 previewPanel.classList.add('fullscreen-preview');
-                icon.textContent = '⤡';
-                text.textContent = ' 退出全屏';
-                showToast('已进入全屏预览模式', 'success');
+                // 添加关闭按钮
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'fullscreen-close';
+                closeBtn.onclick = toggleFullscreenPreview;
+                closeBtn.title = '退出全屏';
+                document.body.appendChild(closeBtn);
+                // 延迟显示关闭按钮以实现淡入效果
+                requestAnimationFrame(() => closeBtn.style.opacity = '0.3');
             }
             
             // 延迟刷新预览以确保正确渲染
